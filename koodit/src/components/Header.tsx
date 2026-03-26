@@ -1,18 +1,20 @@
 import { Link } from "react-router-dom";
 
 export default function Header() {
-    <header className="bg-zinc-800 text-white w-full h-32 flex justify-between items-start px-8 pt-4">
-        <Link to="/" className="w-24 h-24 rounded full border-4 border-[#A2D135] flex items-center justify-center flex-col -mt-2 bg-zinc-800 shadow-lg">
-            Fresh Food Factory
-            FRESSE
-        </Link>
+    return(
+        <header className="bg-zinc-800 text-white w-full h-32 flex justify-between items-start px-8 pt-4">
+            <Link to="/" className="w-24 h-24 rounded full border-4 border-[#A2D135] flex items-center justify-center flex-col -mt-2 bg-zinc-800 shadow-lg">
+                Fresh Food Factory
+                FRESSE
+            </Link>
 
-        <h1 className="text-3x1 font-black tracking-widest mt-6">
-            BOWL-LASKURI
-        </h1>
+            <h1 className="text-3x1 font-black tracking-widest mt-6">
+                BOWL-LASKURI
+            </h1>
 
-        <div className="bg-[#A2D135] text-black rounded-b-3x1 rounded-t-xl px-6 py-4 flex felx-col gap-2 min-w-[200px] shadow-md">
+            <div className="bg-[#A2D135] text-black rounded-b-3x1 rounded-t-xl px-6 py-4 flex felx-col gap-2 min-w-[200px] shadow-md">
 
-        </div>
-    </header>
+            </div>
+        </header>
+    )
 }
