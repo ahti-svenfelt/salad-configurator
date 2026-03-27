@@ -12,7 +12,7 @@ export default function Header() {
                 BOWL-LASKURI
             </h1>
 
-            <div className="bg-[#A2D135] text-black rounded-b-3x1 rounded-t-xl px-6 py-4 flex felx-col gap-2 min-w-[200px] shadow-md">
+            <div className="bg-[#A2D135] text-black rounded-b-3x1 rounded-t-xl px-6 py-4 flex flex-col gap-2 min-w-[200px] shadow-md">
 
             </div>
         </header>
