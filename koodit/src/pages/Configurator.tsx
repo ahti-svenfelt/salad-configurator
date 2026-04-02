@@ -3,6 +3,10 @@ import CenterBowl from "../components/CenterBowl";
 import { getBowls, getCategories, getIngredients } from "../services/api";
 import type { Bowl, Category, Ingredient } from "../types";
 import { useIngredientStore } from "../store/useIngredientStore";
+import BowlSelection from "../components/BowlSelection";
+import BaseSelection from "../components/BaseSelection";
+import IngredientSection from "../components/IngredientSection";
+import SummaryBar from "../components/SummaryBar";
 
 export default function Configurator() {
     const [bowls, setBowls] = useState<Bowl[]>([]);
@@ -48,9 +52,19 @@ export default function Configurator() {
     }
     
     return(
-        <CenterBowl 
-            bowls={filteredBowls}
-            categories={filteredCategories}
-        />
+        <div className="flex flex-col lg:flex-row gap-6 justify-between items-stretch">
+            <BowlSelection bowls={filteredBowls}/>
+
+            <CenterBowl 
+                bowls={filteredBowls}
+                categories={filteredCategories}
+            />
+            
+            <BaseSelection />
+
+            <IngredientSection />
+
+            <SummaryBar />
+        </div>
     )
 } 
