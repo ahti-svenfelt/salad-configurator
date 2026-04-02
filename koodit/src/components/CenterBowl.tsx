@@ -1,15 +1,34 @@
-export default function CenterBowl() {
+import { useIngredientStore } from "../store/useIngredientStore";
+import type { Bowl, Category } from "../types";
+
+interface Props {
+    bowls: Bowl[];
+    categories: Category[];
+}
+
+export default function CenterBowl({ bowls, categories }: Props) {
+    const setBaseType = useIngredientStore((s) => s.setBaseType);
+    const baseType = useIngredientStore((s) => s.baseType);
+
     return(
         <div className="flex-1 flex flex-col items-center justify-center min-h-[400px] mt-4 lg:mt-0">
             <div>
-                <button className="flex gap-3 mb-6 items-center">
+                <button 
+                    className="flex gap-3 mb-6 items-center"
+                    onClick={() => setBaseType(1)}
+                >
                     Salaatti
                 </button>
-                <button className="flex gap-3 mb-6 items-center">
+                <button 
+                    className="flex gap-3 mb-6 items-center"
+                    onClick={() => setBaseType(2)}
+                >
                     Rahka
                 </button>
                 <div>
-                    <div></div>
+                    {bowls.map((b) => (
+                        <div key={b.id}>{b.name}</div>
+                    ))} 
                     <div></div>
                     <div></div>
                 </div>
