@@ -1,5 +1,6 @@
 import CenterBowl from "../components/CenterBowl";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getBowls } from "../services/api"; // 👈 lisää tämä
 import type { Bowl, Category, Ingredient } from "../types";
 
 export default function Configurator() {
@@ -7,5 +8,18 @@ export default function Configurator() {
     const [categories, setCategories] = useState<Category[]>([]);
     const [ingredients, setIngredients] = useState<Ingredient[]>([]);
 
-    return <CenterBowl />
+    useEffect(() => {
+        const fetchBowls = async () => {
+            try {
+                const data = await getBowls();
+                setBowls(data);
+            } catch (error) {
+                console.error("Failed to fetch bowls:", error);
+            }
+        };
+
+        fetchBowls();
+    }, []);
+
+    return <CenterBowl />;
 }
