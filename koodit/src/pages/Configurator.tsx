@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import CenterBowl from "../components/CenterBowl";
 import { getBowls, getCategories, getIngredients } from "../services/api";
 import type { Bowl, Category, Ingredient } from "../types";
+import { useIngredientStore } from "../store/useIngredientStore";
 
 export default function Configurator() {
     const [bowls, setBowls] = useState<Bowl[]>([]);
@@ -10,6 +11,18 @@ export default function Configurator() {
     
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
+    const baseType = useIngredientStore((s) => s.baseType);
+
+    const filteredBowls = bowls.filter(b => b.base_type_id === baseType);
+    const filteredCategories = categories.filter(c => c.base_type_id === baseType);
+
+    return(
+        <CenterBowl 
+            bowls={filteredBowls}
+            categories={filteredCategories}
+        />
+    )
+}
     useEffect(() => {
         const fetchData = async () => {
             try {

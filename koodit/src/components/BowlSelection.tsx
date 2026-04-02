@@ -11,16 +11,35 @@ export default function BowlSelection({ bowls }: BowlSelectionProps) {
                 1
             </div>
 
-            <div className="flex flex-col gap-3 w-full">
-                {bowls.map((bowl) => (
-                    <button
-                        key={bowl.id}
-                        className="h-12 border-2 border-gray-600 rounded-xl flex items-center px-4 hover:bg-zinc-700 hover:border-white transition-colors w-full"
-                    >
-                        {bowl.name}
-                    </button>
-                ))}
-            </div>
+            {bowls.map((bowl) => (
+                <button
+                    key={bowl.id}
+                    className={`h-12 border-2 rounded-xl flex items-center px-4 ${
+                        selectedBowl?.id === bowl.id
+                            ? "border-white"
+                            : "border-gray-600"
+                    }`}
+                    onClick={() => setBowl(bowl)}
+                >
+                    {bowl.name}
+                </button>
+            ))}
+            
+            {bowls.map((bowl) => (
+                <button
+                    key={bowl.id}
+                    className={`h-12 border-2 rounded-xl flex items-center px-4 ${
+                        selectedBowl?.id === bowl.id
+                            ? "border-white"
+                            : "border-gray-600"
+                    }`}
+                    onClick={() => setBowl(bowl)}
+                >
+                    {bowl.name}
+                </button>
+            ))}
+
+            <div className="h-12 border-2 border-gray-600 rounded-xl flex items-center px-4">
 
             {bowls.length === 0 && (
                 <p className="text-sm text-gray-400 mt-2">Ei kulhoja ladattu...</p>
