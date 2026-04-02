@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import CenterBowl from "../components/CenterBowl";
-import { getBowls, getCategories } from "../services/api";
+import { getBowls, getCategories, getIngredients } from "../services/api";
 import type { Bowl, Category, Ingredient } from "../types";
 
 export default function Configurator() {
@@ -15,14 +15,17 @@ export default function Configurator() {
             try {
                 setIsLoading(true);
 
-                const [bowlsData, categoriesData] = await Promise.all([
+                const [bowlsData, categoriesData, ingredientsData] = await Promise.all([
                     getBowls(),
-                    getCategories()
+                    getCategories(),
+                    getIngredients()
                 ]);
 
                 setBowls(bowlsData);
                 setCategories(categoriesData);
+                setIngredients(ingredientsData);
             } catch (error) {
+
                 console.error("Datan haku epäonnistui:", error);
             } finally {
                 setIsLoading(false);
