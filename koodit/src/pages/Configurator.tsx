@@ -16,13 +16,8 @@ export default function Configurator() {
     const filteredBowls = bowls.filter(b => b.base_type_id === baseType);
     const filteredCategories = categories.filter(c => c.base_type_id === baseType);
 
-    return(
-        <CenterBowl 
-            bowls={filteredBowls}
-            categories={filteredCategories}
-        />
-    )
-}
+    
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -51,6 +46,11 @@ export default function Configurator() {
     if (isLoading) {
         return <div className="flex justify-center p-10">Ladataan aineksia...</div>;
     }
-
-    return <CenterBowl />;
+    
+    return(
+        <CenterBowl 
+            bowls={filteredBowls}
+            categories={filteredCategories}
+        />
+    )
 } 
