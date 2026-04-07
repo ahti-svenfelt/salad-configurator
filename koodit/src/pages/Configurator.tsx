@@ -19,7 +19,6 @@ export default function Configurator() {
 
     const filteredBowls = bowls.filter(b => b.base_type_id === baseType);
     const filteredCategories = categories.filter(c => c.base_type_id === baseType);
-
     
 
     useEffect(() => {
@@ -60,7 +59,7 @@ export default function Configurator() {
                 categories={filteredCategories}
             />
             
-            <BaseSelection />
+            <BaseSelection ingredients={ingredients}/>
 
             <IngredientSection />
 
