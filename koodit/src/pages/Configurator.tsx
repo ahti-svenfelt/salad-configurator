@@ -61,7 +61,10 @@ export default function Configurator() {
             
             <BaseSelection ingredients={ingredients}/>
 
-            <IngredientSection />
+            <IngredientSection 
+                categories={filteredCategories}
+                ingredients={ingredients}
+            />
 
             <SummaryBar />
         </div>
