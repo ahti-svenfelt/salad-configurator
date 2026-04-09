@@ -1,47 +1,56 @@
-import IngredientCard from "./IngredientCard"
-import type { Category, Ingredient } from "../types"
-import { useState } from "react";
+import React, { useState, useMemo } from 'react';
+
+interface Ingredient {
+  id: string | number;
+  name: string;
+  image?: string;
+}
 
 interface IngredientSectionProps {
-    categories: Category[];
-    ingredients: Ingredient[];
+  ingredients: Ingredient[];
 }
-export default function IngredientSection({ categories, ingredients }: IngredientSectionProps) {
-    const [activeCategory, setActiveCategory] = useState<"all" | number>("all")
 
-    const filteredCategories = categories.filter(cat => cat.id !== 6)
-    const filteredIngredients = 
-        activeCategory === "all"
-            ? ingredients.filter(ing => ing.categoryId !== 6)
-            : ingredients.filter(ing => ing.categoryId === activeCategory)
+const IngredientSection: React.FC<IngredientSectionProps> = ({ ingredients }) => {
+  const [searchQuery, setSearchQuery] = useState<string>('');
 
-    return(
-        <div className="bg-zinc-800 rounded-[3rem] p-8 text-white w-full shadow-lg">
-            <div>
-                <input type="text" className="rounded-full px-6 py-3 text-black outline-none w-64 border-2 border-transparent focus:border-[#A2D135]"/>
-            </div>
-            <div>
-                <button
-                    onClick={() => setActiveCategory("all")}
-                    className={`px-6 py-2 rounded-full font-bold ${
-                        activeCategory === "all"
-                            ? "bg-[#A2D135] text-black"
-                            : "bf-zinc-600 text-white"
-                    }`}
-                >
-                    All
-                </button>
-                {filteredCategories.map(cat => (
-                    <p key={cat.id} className="bg-[#A2D135] text-black font-bold px-6 py-2 rounded-full">
-                        {cat.name}
-                    </p>
-                ))}
-            </div>
-            <div>
-                {filteredIngredients.map(ingredient => (
-                    <IngredientCard key={ingredient.id} ingredient={ingredient}/>
-                ))}
-            </div>
-        </div>
-    )
-}
+  const filteredIngredients = useMemo(() => {
+    return ingredients.filter((ingredient) =>
+      ingredient.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }, [ingredients, searchQuery]);
+
+  return (
+    <section className="p-4">
+      <h2 className="text-xl font-bold mb-4">Ainesosat</h2>
+
+      <div className="mb-6">
+        <input
+          type="text"
+          placeholder="Etsi ainesosia..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+        />
+      </div>
+
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        {filteredIngredients.map((ingredient) => (
+          <div 
+            key={ingredient.id} 
+            className="p-3 border rounded-md bg-white shadow-sm flex items-center"
+          >
+            <span className="capitalize">{ingredient.name}</span>
+          </div>
+        ))}
+      </div>
+
+      {filteredIngredients.length === 0 && (
+        <p className="text-gray-500 mt-4 italic">
+          Ei ainesosia hakusanalla "{searchQuery}"
+        </p>
+      )}
+    </section>
+  );
+};
+
+export default IngredientSection;
