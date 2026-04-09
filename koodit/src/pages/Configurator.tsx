@@ -3,6 +3,10 @@ import CenterBowl from "../components/CenterBowl";
 import { getBowls, getCategories, getIngredients } from "../services/api";
 import type { Bowl, Category, Ingredient } from "../types";
 import { useIngredientStore } from "../store/useIngredientStore";
+import BowlSelection from "../components/BowlSelection";
+import BaseSelection from "../components/BaseSelection";
+import IngredientSection from "../components/IngredientSection";
+import SummaryBar from "../components/SummaryBar";
 
 export default function Configurator() {
     const [bowls, setBowls] = useState<Bowl[]>([]);
@@ -15,14 +19,8 @@ export default function Configurator() {
 
     const filteredBowls = bowls.filter(b => b.base_type_id === baseType);
     const filteredCategories = categories.filter(c => c.base_type_id === baseType);
+    
 
-    return(
-        <CenterBowl 
-            bowls={filteredBowls}
-            categories={filteredCategories}
-        />
-    )
-}
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -51,6 +49,24 @@ export default function Configurator() {
     if (isLoading) {
         return <div className="flex justify-center p-10">Ladataan aineksia...</div>;
     }
+    
+    return(
+        <div className="flex flex-col lg:flex-row gap-6 justify-between items-stretch">
+            <BowlSelection bowls={filteredBowls}/>
 
-    return <CenterBowl />;
+            <CenterBowl 
+                bowls={filteredBowls}
+                categories={filteredCategories}
+            />
+            
+            <BaseSelection ingredients={ingredients}/>
+
+            <IngredientSection 
+                categories={filteredCategories}
+                ingredients={ingredients}
+            />
+
+            <SummaryBar />
+        </div>
+    )
 } 

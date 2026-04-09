@@ -1,5 +1,6 @@
 import React from "react";
 import type { Ingredient } from "../types";
+import { useIngredientStore } from "../store/useIngredientStore";
 
 interface Props {
     ingredient: Ingredient;
@@ -12,8 +13,13 @@ const dietLabels: Record<string, string> = {
 };
 
 export default function IngredientCard({ ingredient }: Props) {
+    const addIngredient = useIngredientStore((state) => state.addIngredient);
+
     return(
-        <div className="w-44 h-44 rounded-xl p-4 shadow-md bg-white flex flex-col justify-between">
+        <button
+            onClick={() => addIngredient(ingredient)}
+            className="w-44 h-44 rounded-xl p-4 shadow-md bg-white flex flex-col justify-between"
+        >
             <div className="text-lg font-semibold text-gray-900 break-words">
                 {ingredient.name}
             </div>
@@ -25,6 +31,6 @@ export default function IngredientCard({ ingredient }: Props) {
                     </span>
                 ))}
             </div>
-        </div>
+        </button>
     );
 }

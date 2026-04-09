@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom"
+
 export default function SummaryBar() {
     return(
         <div className="bg-zinc-800 rounded-[3rem] p-8 text-white w-full flex flex-col md:flex-row gap-8 shadow-xl">
@@ -8,9 +10,11 @@ export default function SummaryBar() {
                 <div className="bg-white text-black font-black text-2xl py-3 w-32 rounded-full mb-2 shadow-md text-center">
 
                 </div>
-                <div className="bg-white text-black font-black text-2xl py-3 w-32 rounded-full mb-2 shadow-md text-center">
-
-                </div>
+                <Link to="/print">
+                    <div className="bg-white text-black font-black text-2xl py-3 w-32 rounded-full mb-2 shadow-md text-center">
+                        Print
+                    </div>
+                </Link>
             </div>
         </div>
     )
