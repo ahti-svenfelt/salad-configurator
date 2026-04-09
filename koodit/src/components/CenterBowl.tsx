@@ -1,45 +1,36 @@
-import { useIngredientStore } from "../store/useIngredientStore";
-import type { Bowl, Category } from "../types";
+import React from 'react';
+import { useIngredientStore } from '../store/useIngredientStore';
 
-interface Props {
-    bowls: Bowl[];
-    categories: Category[];
-}
+const CenterBowl: React.FC = () => {
+  const slots = useIngredientStore((state) => state.slots);
+  const activeIngredients = Object.values(slots).filter(
+    (ingredient) => ingredient !== null
+  );
 
-export default function CenterBowl({ bowls, categories }: Props) {
-    const setBaseType = useIngredientStore((s) => s.setBaseType);
-    const baseType = useIngredientStore((s) => s.baseType);
+  return (
+    <div className="relative flex flex-col items-center justify-center min-h-[300px] p-8 bg-gray-50 rounded-full border-4 border-dashed border-gray-200">
+      <h2 className="absolute top-4 text-sm font-semibold text-gray-400 uppercase tracking-widest">
+        Sinun kulhosi
+      </h2>
 
-    return(
-        <div className="flex-1 flex flex-col items-center justify-center min-h-[400px] mt-4 lg:mt-0">
-            <div>
-                <button 
-                    className="flex gap-3 mb-6 items-center"
-                    onClick={() => setBaseType(1)}
-                >
-                    Salaatti
-                </button>
-                <button 
-                    className="flex gap-3 mb-6 items-center"
-                    onClick={() => setBaseType(2)}
-                >
-                    Rahka
-                </button>
-                <div>
-                    {bowls.map((b) => (
-                        <div key={b.id}>{b.name}</div>
-                    ))} 
-                    <div></div>
-                    <div></div>
-                </div>
+      <div className="flex flex-wrap justify-center gap-2 max-w-[80%]">
+        {activeIngredients.length > 0 ? (
+          activeIngredients.map((ingredient, index) => (
+            <div
+              key={`${ingredient.id}-${index}`}
+              className="px-4 py-2 bg-emerald-500 text-white rounded-full text-sm font-medium shadow-sm animate-in fade-in zoom-in duration-300"
+            >
+              {ingredient.name}
             </div>
-            <div className="w-80 h-80 rounded-full border-[12px] border-gray-200 bg-gray-50 flex items-center justify-center shadow-inner relative">
+          ))
+        ) : (
+          <p className="text-gray-400 italic">Kulho on vielä tyhjä...</p>
+        )}
+      </div>
 
-            </div>
-            <div>
-                100 g / 1,99 €
-                500 ml
-            </div>
-        </div>
-    )
-}
+      <div className="absolute bottom-0 w-full h-1/4 bg-gray-200/50 rounded-b-full -z-10" />
+    </div>
+  );
+};
+
+export default CenterBowl;
