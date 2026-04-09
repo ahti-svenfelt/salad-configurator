@@ -1,46 +1,47 @@
-import { create } from "zustand";
-import type { Ingredient, Bowl } from "../types";
+import { create } from 'zustand';
 
-interface IngredientStore {
-    slots: Record<string, Ingredient | null>
-    baseType: number
-    selectedBowl: Bowl | null
-
-    setBaseType: (id: number) => void
-    setBowl: (bowl: Bowl | null) => void
-    clearSelection: () => void
-
-    addIngredient: (item: Ingredient) => void
-    removeIngredient: (id: string) => void
+export interface Ingredient {
+  id: number;
+  name: string;
+  categoryId: number;
 }
 
-export const useIngredientStore = create <IngredientStore>((set) => ({
-    slots: {},
-    baseType: 1,
-    selectedBowl: null,
+interface IngredientState {
+  selectedBowl: { slot_count: number } | null;
+  slots: Record<string, Ingredient | null>;
+  addIngredient: (item: Ingredient) => void;
+}
 
-    setBaseType: (id) =>
-        set(() => ({
-            baseType: id,
-        })),
+export const useIngredientStore = create<IngredientState>((set) => ({
+  selectedBowl: null,
+  slots: {},
 
-    setBowl: (bowl) =>
-        set(() => ({
-            selectedBowl: bowl,
-        })),
-    
-    clearSelection: () =>
-        set(() => ({
-            slots: {},
-            baseType: 1,
-            selectedBowl: null,
-        })),
-    
-    addIngredient: (item) => {
-        console.warn('addIngredient not implemented', item)
-    },
+  addIngredient: (item: Ingredient) => {
+    set((state) => {
+      if (item.categoryId === 6) {
+        return {
+          slots: {
+            ...state.slots,
+            base: item,
+          },
+        };
+      }
 
-    removeIngredient: (id) => {
-        console.warn('removeIngredient not implemented', id)
-    },
-}))
+      const slotCount = state.selectedBowl?.slot_count || 0;
+
+      for (let i = 1; i <= slotCount; i++) {
+        const slotKey = `slot-${i}`;
+        if (!state.slots[slotKey]) {
+          return {
+            slots: {
+              ...state.slots,
+              [slotKey]: item,
+            },
+          };
+        }
+      }
+
+      return state;
+    });
+  },
+}));
