@@ -20,27 +20,34 @@ export const useIngredientStore = create<IngredientState>((set) => ({
     set((state) => {
       if (item.categoryId === 6) {
         return {
-          slots: {
-            ...state.slots,
-            base: item,
-          },
+          slots: { ...state.slots, base: item },
         };
       }
 
       const slotCount = state.selectedBowl?.slot_count || 0;
-
       for (let i = 1; i <= slotCount; i++) {
         const slotKey = `slot-${i}`;
         if (!state.slots[slotKey]) {
           return {
-            slots: {
-              ...state.slots,
-              [slotKey]: item,
-            },
+            slots: { ...state.slots, [slotKey]: item },
           };
         }
       }
+      return state;
+    });
+  },
 
+  removeIngredient: (id: number) => {
+    set((state) => {
+      const newSlots = { ...state.slots };
+      const keyToRemove = Object.keys(newSlots).find(
+        (key) => newSlots[key]?.id === id
+      );
+
+      if (keyToRemove) {
+        newSlots[keyToRemove] = null;
+        return { slots: newSlots };
+      }
       return state;
     });
   },
