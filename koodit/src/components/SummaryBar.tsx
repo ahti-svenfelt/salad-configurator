@@ -1,21 +1,48 @@
-import { Link } from "react-router-dom"
+import React from 'react';
+import { useIngredientStore } from '../store/useIngredientStore';
 
-export default function SummaryBar() {
-    return(
-        <div className="bg-zinc-800 rounded-[3rem] p-8 text-white w-full flex flex-col md:flex-row gap-8 shadow-xl">
-            <div className="flex-1 bg-[#3a3a3a] rounded-3xl p-6 min-h-[150px] shadow-inner">
+const SummaryBar: React.FC = () => {
+  const { slots, removeIngredient } = useIngredientStore();
 
-            </div>
-            <div className="flex-1 flex flex-col justify-center items-center gap-6">
-                <div className="bg-white text-black font-black text-2xl py-3 w-32 rounded-full mb-2 shadow-md text-center">
+  const activeIngredients = Object.values(slots).filter(
+    (ingredient) => ingredient !== null
+  );
 
-                </div>
-                <Link to="/print">
-                    <div className="bg-white text-black font-black text-2xl py-3 w-32 rounded-full mb-2 shadow-md text-center">
-                        Print
-                    </div>
-                </Link>
-            </div>
+  return (
+    <div className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg p-4 z-50">
+      <div className="max-w-4xl mx-auto flex items-center justify-between">
+        
+        <div className="flex items-center gap-2">
+          <span className="font-bold text-lg">Valinnat:</span>
+          <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full font-semibold">
+            {activeIngredients.length} kpl
+          </span>
         </div>
-    )
-}
+
+        <div className="flex flex-wrap gap-2 overflow-x-auto py-2">
+          {activeIngredients.map((ingredient, index) => (
+            <div 
+              key={`${ingredient.id}-${index}`}
+              className="flex items-center gap-2 bg-gray-100 px-3 py-1 rounded-md text-sm group"
+            >
+              <span>{ingredient.name}</span>
+              <button
+                onClick={() => removeIngredient(ingredient.id)}
+                className="text-gray-400 hover:text-red-500 font-bold transition-colors"
+                title="Poista"
+              >
+                ✕
+              </button>
+            </div>
+          ))}
+        </div>
+
+        <button className="bg-green-600 text-white px-6 py-2 rounded-lg font-bold hover:bg-green-700">
+          Jatka
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default SummaryBar;
