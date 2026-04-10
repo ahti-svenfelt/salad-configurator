@@ -11,30 +11,20 @@ const Modal = ({ isOpen, onClose, children }: ModalProps) => {
 
   return (
     <div
+      className="fixed inset-0 bg-black/60 flex items-center justify-center z-50"
       onClick={onClose}
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100%",
-        height: "100%",
-        backgroundColor: "rgba(0, 0, 0, 0.5)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        zIndex: 1000,
-      }}
     >
       <div
+        className="bg-white rounded-lg shadow-lg p-6 relative w-full max-w-md"
         onClick={(e) => e.stopPropagation()}
-        style={{
-          background: "#fff",
-          padding: "20px",
-          borderRadius: "8px",
-          minWidth: "300px",
-          maxWidth: "90%",
-        }}
       >
+        <button
+          onClick={onClose}
+          className="absolute top-2 right-2 text-gray-500 hover:text-black text-xl font-bold"
+        >
+          ×
+        </button>
+
         {children}
       </div>
     </div>
