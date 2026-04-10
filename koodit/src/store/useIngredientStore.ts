@@ -5,6 +5,7 @@ export interface Ingredient {
   id: number;
   name: string;
   categoryId: number;
+  weight_grams: number;
 }
 
 interface IngredientState {
