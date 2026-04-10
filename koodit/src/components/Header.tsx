@@ -46,7 +46,7 @@ export default function Header() {
                         onClick={() => setIsLoginOpen(true)}
                         className="font-semibold text-left hover:underline"
                     >
-                        Sing in
+                        Sign in
                     </button>
                 </div>
             )}
