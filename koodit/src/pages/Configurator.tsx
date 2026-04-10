@@ -51,16 +51,17 @@ export default function Configurator() {
     }
     
     return(
-        <div className="flex flex-col lg:flex-row gap-6 justify-between items-stretch">
-            <BowlSelection bowls={filteredBowls}/>
+        <div>
+            <div className="flex flex-col lg:flex-row gap-6 justify-between items-stretch">
+                <BowlSelection bowls={filteredBowls}/>
 
-            <CenterBowl 
-                bowls={filteredBowls}
-                categories={filteredCategories}
-            />
-            
-            <BaseSelection ingredients={ingredients}/>
-
+                <CenterBowl 
+                    bowls={filteredBowls}
+                    categories={filteredCategories}
+                />
+                
+                <BaseSelection ingredients={ingredients}/>
+            </div>
             <IngredientSection 
                 categories={filteredCategories}
                 ingredients={ingredients}
@@ -68,5 +69,6 @@ export default function Configurator() {
 
             <SummaryBar />
         </div>
+        
     )
 } 
