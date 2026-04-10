@@ -12,11 +12,32 @@ export default function CenterBowl({ bowls, categories }: Props) {
   const baseType = useIngredientStore((s) => s.baseType);
 
   const slots = useIngredientStore((s) => s.slots);
+  const selectedBowl = useIngredientStore((s) => s.selectedBowl);
+  const clearSelection = useIngredientStore((s) => s.clearSelection);
 
   const activeIngredients = Object.values(slots).filter((i) => i !== null);
 
   return (
     <div className="flex-1 flex flex-col items-center justify-center min-h-[400px] mt-4 lg:mt-0">
+      <div>
+        <button onClick={() => alert("Feature coming soon")}>
+          ↩️
+        </button>
+
+        <button onClick={() => alert("Feature coming soon")}>
+          💾
+        </button>
+
+        <button onClick={() => {
+            if (window.confirm('Are you sure you want to empty the bowl')) {
+              clearSelection();
+            }
+          }}
+        >
+          🗑️
+        </button>
+      </div>
+      
       <div>
         <button 
           className="flex gap-3 mb-6 items-center"
@@ -54,7 +75,7 @@ export default function CenterBowl({ bowls, categories }: Props) {
         <div>
           100 g / 1,99 €  
           <br />
-          500 ml
+          {selectedBowl ? selectedBowl.volume : 0} ml
       </div>
     </div>
   );
