@@ -13,11 +13,34 @@ export default function CenterBowl({ bowls, categories }: Props) {
 
   const slots = useIngredientStore((s) => s.slots);
   const selectedBowl = useIngredientStore((s) => s.selectedBowl);
+<<<<<<< 79-task-48-action-buttons-trash-can-undo-save
+  const clearSelection = useIngredientStore((s) => s.clearSelection);
+=======
+>>>>>>> main
 
   const activeIngredients = Object.values(slots).filter((i) => i !== null);
 
   return (
     <div className="flex-1 flex flex-col items-center justify-center min-h-[400px] mt-4 lg:mt-0">
+      <div>
+        <button onClick={() => alert("Feature coming soon")}>
+          ↩️
+        </button>
+
+        <button onClick={() => alert("Feature coming soon")}>
+          💾
+        </button>
+
+        <button onClick={() => {
+            if (window.confirm('Are you sure you want to empty the bowl')) {
+              clearSelection();
+            }
+          }}
+        >
+          🗑️
+        </button>
+      </div>
+      
       <div>
         <button 
           className="flex gap-3 mb-6 items-center"
