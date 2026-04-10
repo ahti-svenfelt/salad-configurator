@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import LoginModal from "./LoginModal";
 
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isLoginOpen, setIsLoginOpen] = useState(false)
 
     return(
         <header className="bg-zinc-800 text-white w-full h-32 flex justify-between items-start px-8 pt-4">
@@ -39,8 +41,20 @@ export default function Header() {
                     <Link to="/community" className="font-semibold hover:underline">
                         Saved recipes
                     </Link>
+
+                     <button
+                        onClick={() => setIsLoginOpen(true)}
+                        className="font-semibold text-left hover:underline"
+                    >
+                        Sing in
+                    </button>
                 </div>
-            )}  
+            )}
+
+            <LoginModal
+                isOpen={isLoginOpen}
+                onClose={() => setIsLoginOpen(false)}
+            />
         </header>
     )
 }
