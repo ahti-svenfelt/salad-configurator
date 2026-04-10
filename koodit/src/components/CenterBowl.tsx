@@ -12,6 +12,7 @@ export default function CenterBowl({ bowls, categories }: Props) {
   const baseType = useIngredientStore((s) => s.baseType);
 
   const slots = useIngredientStore((s) => s.slots);
+  const selectedBowl = useIngredientStore((s) => s.selectedBowl);
 
   const activeIngredients = Object.values(slots).filter((i) => i !== null);
 
@@ -54,7 +55,7 @@ export default function CenterBowl({ bowls, categories }: Props) {
         <div>
           100 g / 1,99 €  
           <br />
-          500 ml
+          {selectedBowl ? selectedBowl.volume : 0} ml
       </div>
     </div>
   );

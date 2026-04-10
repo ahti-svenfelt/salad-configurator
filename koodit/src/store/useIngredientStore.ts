@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import type { Bowl } from '../types';
+
 export interface Ingredient {
   id: number;
   name: string;
@@ -9,7 +10,7 @@ export interface Ingredient {
 interface IngredientState {
   slots: Record<string, Ingredient | null>
   baseType: number
-  selectedBowl: { slot_count: number } | null
+  selectedBowl: Bowl | null
 
   setBaseType: (id: number) => void
   setBowl: (bowl: Bowl | null) => void
