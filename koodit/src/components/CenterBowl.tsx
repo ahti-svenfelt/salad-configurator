@@ -13,10 +13,7 @@ export default function CenterBowl({ bowls, categories }: Props) {
 
   const slots = useIngredientStore((s) => s.slots);
   const selectedBowl = useIngredientStore((s) => s.selectedBowl);
-<<<<<<< 79-task-48-action-buttons-trash-can-undo-save
   const clearSelection = useIngredientStore((s) => s.clearSelection);
-=======
->>>>>>> main
 
   const activeIngredients = Object.values(slots).filter((i) => i !== null);
 
@@ -40,7 +37,7 @@ export default function CenterBowl({ bowls, categories }: Props) {
           🗑️
         </button>
       </div>
-      
+
       <div>
         <button 
           className="flex gap-3 mb-6 items-center"
