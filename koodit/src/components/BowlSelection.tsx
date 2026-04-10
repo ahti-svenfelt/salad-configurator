@@ -27,7 +27,7 @@ export default function BowlSelection({ bowls }: BowlSelectionProps) {
                 <button
                     key={bowl.id}
                     className={`h-12 border-2 rounded-xl flex items-center px-4 ${
-                        selectedBowl?.id === bowl.id
+                        selectedBowl?.slot_count === bowl.id
                             ? "border-white"
                             : "border-gray-600"
                     }`}

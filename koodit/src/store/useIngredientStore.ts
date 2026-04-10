@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import type { Bowl } from '../types';
 export interface Ingredient {
   id: number;
   name: string;
@@ -6,15 +7,39 @@ export interface Ingredient {
 }
 
 interface IngredientState {
-  selectedBowl: { slot_count: number } | null;
-  slots: Record<string, Ingredient | null>;
-  addIngredient: (item: Ingredient) => void;
-  removeIngredient: (id: number) => void;
+  slots: Record<string, Ingredient | null>
+  baseType: number
+  selectedBowl: { slot_count: number } | null
+
+  setBaseType: (id: number) => void
+  setBowl: (bowl: Bowl | null) => void
+  clearSelection: () => void
+
+  addIngredient: (item: Ingredient) => void
+  removeIngredient: (id: number) => void
 }
 
 export const useIngredientStore = create<IngredientState>((set) => ({
-  selectedBowl: null,
   slots: {},
+  baseType: 1,
+  selectedBowl: null,
+
+  setBaseType: (id) =>
+    set(() => ({
+      baseType: id,
+    })),
+
+  setBowl: (bowl) =>
+    set(() => ({
+      selectedBowl: bowl,
+    })),
+    
+  clearSelection: () =>
+    set(() => ({
+      slots: {},
+      baseType: 1,
+      selectedBowl: null,
+    })),
 
   addIngredient: (item: Ingredient) => {
     set((state) => {
@@ -48,22 +73,6 @@ export const useIngredientStore = create<IngredientState>((set) => ({
         newSlots[keyToRemove] = null;
         return { slots: newSlots };
       }
-      return state;
-    });
-  },
-
-  removeIngredient: (id: number) => {
-    set((state) => {
-      const newSlots = { ...state.slots };
-      const keyToRemove = Object.keys(newSlots).find(
-        (key) => newSlots[key]?.id === id
-      );
-
-      if (keyToRemove) {
-        newSlots[keyToRemove] = null;
-        return { slots: newSlots };
-      }
-
       return state;
     });
   },
