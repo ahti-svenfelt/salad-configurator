@@ -46,8 +46,18 @@ export async function getCategories(id: string) {
     return response.json();
 }
 
-export async function getIngredients() {
+export async function getBaseIngredients() {
     const response = await fetch(`${Base_url}/baseingredients`);
+
+    if (!response.ok) {
+        throw new Error("Failed to fetch");
+    }
+
+    return response.json();
+}
+
+export async function getIngredients() {
+    const response = await fetch(`${Base_url}/ingredients`);
 
     if (!response.ok) {
         throw new Error("Failed to fetch");
