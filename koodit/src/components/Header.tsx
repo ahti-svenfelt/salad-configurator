@@ -1,16 +1,19 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import LoginModal from "./LoginModal";
+import { useAuthStore } from "../store/useAuthStore";
 
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isLoginOpen, setIsLoginOpen] = useState(false)
 
+    const userName = useAuthStore((state) => state.userName);
+    const logout = useAuthStore((state) => state.logout);
+    
     return(
         <header className="bg-zinc-800 text-white w-full h-32 flex justify-between items-start px-8 pt-4">
-            <Link to="/" className="w-24 h-24 rounded full border-4 border-[#A2D135] flex items-center justify-center flex-col -mt-2 bg-zinc-800 shadow-lg">
-                Fresh Food Factory
-                FRESSE
+            <Link to="/" className="w-30 h-30 rounded full flex items-center justify-center flex-col -mt-2">
+                <img src="https://salaattimestari.fi/wp-content/uploads/2025/12/Fresse_tunnus-_valko-viher_RGB_202511-300x300.png" alt="Fresse logo" />
             </Link>
 
             <h1 className="text-3x1 font-black tracking-widest mt-6">
@@ -42,12 +45,27 @@ export default function Header() {
                         Saved recipes
                     </Link>
 
-                     <button
-                        onClick={() => setIsLoginOpen(true)}
-                        className="font-semibold text-left hover:underline"
-                    >
-                        Sign in
-                    </button>
+                    {!userName ? (
+                        <button
+                            onClick={() => setIsLoginOpen(true)}
+                            className="font-semibold text-left hover:underline"
+                        >
+                            Sign in
+                        </button>
+                    ) : (
+                        <>
+                            <span className="font-semibold">Hello, {userName}</span>
+                            <button
+                                onClick={() => {
+                                    logout();
+                                    setIsMenuOpen(false);
+                                }}
+                                className="font-semibold text-left hover:underline"
+                            >
+                                Logout
+                            </button>
+                        </>
+                    )}
                 </div>
             )}
 

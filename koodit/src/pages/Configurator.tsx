@@ -27,8 +27,8 @@ export default function Configurator() {
                 setIsLoading(true);
 
                 const [bowlsData, categoriesData, ingredientsData] = await Promise.all([
-                    getBowls(),
-                    getCategories(),
+                    getBowls("[|2]"),
+                    getCategories("[1|2]"),
                     getIngredients()
                 ]);
 
