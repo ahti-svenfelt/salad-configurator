@@ -1,24 +1,49 @@
 import { useState } from "react";
 import Modal from "./Modal";
+import { useAuthStore } from "../store/useAuthStore";
+import { useIngredientStore } from "../store/useIngredientStore";
+import { SaveRecipe } from "../services/api";
 
 type SaveRecipeModalProps = {
     isOpen: boolean;
     onClose: () => void;
     onSave: (recipeName: string, makePublic: boolean) => void;
+    bowlId: number;
 };
 
-export default function SaveRecipeModal({ isOpen, onClose, onSave }: SaveRecipeModalProps) {
+export default function SaveRecipeModal({ isOpen, onClose, onSave, bowlId }: SaveRecipeModalProps) {
     const [recipeName, setRecipeName] = useState("");
     const [makePublic, setMakePublic] = useState(false);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const token = useAuthStore((s) => s.token);
+    const slots = useIngredientStore((s) => s.slots);
+
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        onSave(recipeName, makePublic);
-        onClose();
+        
+        const ingredientIds = Object.values(slots)
+            .filter((i) => i !== null)
+            .map((i) => i!.id);
+
+        const recipeData = {
+            name: recipeName,
+            bowl_id: bowlId,
+            ingredient_ids: ingredientIds,
+            is_public: makePublic,
+        };
+
+        try {
+            await SaveRecipe(token!, recipeData);
+            onClose();
+        } catch (error) {
+            console.error("Failed to save recipe:", error);
+        }
     };
 
     return (
         <Modal isOpen={isOpen} onClose={onClose}>
+            <h2 className="text-2xl font-bold mb-4">Save Recipe</h2>
+
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                 <div className="flex flex-col gap-1">
                     <label className="font-semibold">Recipe Name</label>
@@ -31,6 +56,7 @@ export default function SaveRecipeModal({ isOpen, onClose, onSave }: SaveRecipeM
                         required
                     />
                 </div>
+
                 <label className="flex items-center gap-2">
                     <input
                         type="checkbox"
@@ -39,6 +65,7 @@ export default function SaveRecipeModal({ isOpen, onClose, onSave }: SaveRecipeM
                     />
                     <span>Make Public</span>
                 </label>
+                
                 <button
                     type="submit"
                     className="bg-black text-white py-2 rounded-lg font-bold hover:bg-gray-800"
