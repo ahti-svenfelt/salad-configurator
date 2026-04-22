@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import CenterBowl from "../components/CenterBowl";
-import { getBowls, getCategories, getIngredients } from "../services/api";
+import { getBowls, getCategories, getBaseIngredients, getIngredients } from "../services/api";
 import type { Bowl, Category, Ingredient } from "../types";
 import { useIngredientStore } from "../store/useIngredientStore";
 import BowlSelection from "../components/BowlSelection";
@@ -12,6 +12,7 @@ export default function Configurator() {
     const [bowls, setBowls] = useState<Bowl[]>([]);
     const [categories, setCategories] = useState<Category[]>([]);
     const [ingredients, setIngredients] = useState<Ingredient[]>([]);
+    const [baseIngredients, setBaseIngredients] = useState<Ingredient[]>([]);
     
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -26,15 +27,17 @@ export default function Configurator() {
             try {
                 setIsLoading(true);
 
-                const [bowlsData, categoriesData, ingredientsData] = await Promise.all([
+                const [bowlsData, categoriesData, ingredientsData, baseIngredientsData] = await Promise.all([
                     getBowls("[|2]"),
                     getCategories("[1|2]"),
-                    getIngredients()
+                    getIngredients(),
+                    getBaseIngredients()
                 ]);
 
                 setBowls(bowlsData);
                 setCategories(categoriesData);
                 setIngredients(ingredientsData);
+                setBaseIngredients(baseIngredientsData);
             } catch (error) {
 
                 console.error("Datan haku epäonnistui:", error);
@@ -60,7 +63,7 @@ export default function Configurator() {
                     categories={filteredCategories}
                 />
                 
-                <BaseSelection ingredients={ingredients}/>
+                <BaseSelection ingredients={baseIngredients}/>
             </div>
             <IngredientSection 
                 categories={filteredCategories}

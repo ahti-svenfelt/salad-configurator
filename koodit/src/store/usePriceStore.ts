@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { getPrices } from "../services/api";
 
 export interface PriceListItem {
-    id: string;
+    item_id: number;
     name: string;
     price: number;
 }
@@ -12,7 +12,7 @@ interface PriceStoreState {
     fetchPrices: (token: string) => Promise<void>;
 }
 
-export const UsePriceStore = create<PriceStoreState>((set) => ({
+export const usePriceStore = create<PriceStoreState>((set) => ({
     prices: [],
 
     fetchPrices: async (token: string) => {
