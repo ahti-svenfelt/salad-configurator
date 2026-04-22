@@ -12,14 +12,7 @@ export default function BaseSelection({ ingredients }: BaseSelectionProps) {
             <div className="bg-white text-black font-bold rounded-full w-8 h-8 flex items-center justify-center mb-4 shrink-0">
                 2
             </div>
-            <div className="border-b border-gray-600 pb-2 flex justify-end gap-4 items-center">
-                {bases.map(base => (
-                    <div key={base.id} className="flex justify-between items-center">
-                        <span>{base.name}</span>
-                    </div>
-                ))},
-            </div>
-            <div className="border-b border-gray-600 pb-2 flex justify-end gap-4 items-center">
+            <div className="border-b border-gray-600 pb-2 flex flex-col justify-end gap-4 items-center w-full">
                 {bases.map(base => (
                     <div key={base.id} className="flex justify-between items-center">
                         <span>{base.name}</span>
