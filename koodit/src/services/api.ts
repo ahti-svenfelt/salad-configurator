@@ -14,6 +14,18 @@ export async function login(email: string, password: string) {
     return response.json();
 }
 
+export async function getPrices(token: string) {
+    const response = await fetch(`${Base_url}/prices`, {
+        headers: { "Authorization": `Bearer ${token}`},
+    });
+
+    if(!response.ok) {
+        throw new Error("Failed to fetch prices");
+    }
+
+    return response.json();
+}
+
 export async function getBowls(id: string) {
     const response = await fetch(`${Base_url}/bowls?type_id=${id}`);
 
