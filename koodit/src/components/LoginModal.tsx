@@ -1,5 +1,8 @@
 import { useState } from "react";
 import Modal from "./Modal";
+import { login as loginApi} from "../services/api";
+import { useAuthStore } from "../store/useAuthStore";
+
 
 type LoginModalProps = {
   isOpen: boolean;
@@ -9,16 +12,26 @@ type LoginModalProps = {
 const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const login = useAuthStore((state) => state.login);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError("");
 
-    console.log("Login clicked");
+    try {
+      const data = await loginApi(email, password);
 
-    setEmail("");
-    setPassword("");
+      login(data.token, data.name);
 
-    onClose();
+      setEmail("");
+      setPassword("");
+
+      onClose();
+    } catch (err) {
+      setError("Invalid email or password");
+    }
   };
 
   return (
@@ -26,12 +39,14 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
       <form onSubmit={handleSubmit} className="space-y-4">
         <h2 className="text-xl font-bold">Login</h2>
 
+        {error && <p className="text-red-600">{error}</p>}
+        
         <input
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full border p-2 rounded"
+          className="w-full border p-2 rounded text-black bg-white"
           required
         />
 
@@ -40,7 +55,7 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full border p-2 rounded"
+          className="w-full border p-2 rounded text-black bg-white"
           required
         />
 
