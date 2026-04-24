@@ -26,7 +26,12 @@ export async function getPrices(token: string) {
     return response.json();
 }
 
-export async function SaveRecipe(token: string, recipeData: any) {
+export async function SaveRecipe(token: string, recipeData: {
+    name: string;
+    bowl_id: number;
+    ingredient_ids: number[];
+    is_public: boolean;
+}) {
     const response = await fetch(`${Base_url}/recipes`, {
         method: "POST",
         headers: {

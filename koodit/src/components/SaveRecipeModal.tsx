@@ -17,6 +17,7 @@ export default function SaveRecipeModal({ isOpen, onClose, onSave, bowlId }: Sav
 
     const token = useAuthStore((s) => s.token);
     const slots = useIngredientStore((s) => s.slots);
+    const clearSelection = useIngredientStore((s) => s.clearSelection);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -34,9 +35,14 @@ export default function SaveRecipeModal({ isOpen, onClose, onSave, bowlId }: Sav
 
         try {
             await SaveRecipe(token!, recipeData);
+            alert("Recipe saved!");
+
+            clearSelection();
+
             onClose();
         } catch (error) {
             console.error("Failed to save recipe:", error);
+            alert("Failed to save recipe.");
         }
     };
 
