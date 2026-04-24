@@ -60,9 +60,25 @@ export default function CenterBowl({ bowls, categories }: Props) {
             </div>
         </div>
 
-        <div className="w-80 h-80 rounded-full border-[12px] border-gray-200 bg-gray-50 
-          flex flex-wrap items-center justify-center shadow-inner relative p-4"
-          >
+        <div className={`w-80 h-80 rounded-full border-[12px] border-gray-200 bg-gray-50 
+          flex flex-wrap items-center justify-center shadow-inner relative p-4 ${selectedBowl?.shape === 'square' ? 'rounded-xl' : 'rounded-full'}`}
+        >
+          {selectedBowl?.image_url && (
+            <img
+              src={selectedBowl.image_url}
+              alt="Base"
+              className="absolute inset-0 w-full h-full object-cover z-10 pointer-events-none"
+            />
+          )}
+
+          {selectedBowl?.slot_count && (
+            <img
+              src={selectedBowl.slot_count === 4 ? "/dividers/divider-4.png" : "/dividers/divider-6.png"}
+              alt="Divider"
+              className="absolute inset-0 w-full h-full object-contain z-20 pointer-events-none"
+            />
+          )}
+
           {activeIngredients.map((ing) => (
             <span
               key={ing!.id}
@@ -70,7 +86,7 @@ export default function CenterBowl({ bowls, categories }: Props) {
             >
               {ing!.name}
             </span>
-              ))}
+          ))}
         </div>
         <div>
           100 g / 1,99 €  
