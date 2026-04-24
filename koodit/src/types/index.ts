@@ -10,7 +10,7 @@ export interface Bowl extends BaseType {
     base_type_id?: number;
     volume?: number;
     slot_count: number;
-    shaper: 'round' | 'square';
+    shape: 'round' | 'square';
 }
 
 export interface Category {

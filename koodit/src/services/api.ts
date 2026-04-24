@@ -26,6 +26,23 @@ export async function getPrices(token: string) {
     return response.json();
 }
 
+export async function SaveRecipe(token: string, recipeData: any) {
+    const response = await fetch(`${Base_url}/recipes`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify(recipeData),
+    });
+
+    if(!response.ok) {
+        throw new Error("Failed to save recipe");
+    }
+
+    return response.json();
+}
+
 export async function getBowls(id: string) {
     const response = await fetch(`${Base_url}/bowls?type_id=${id}`);
 
