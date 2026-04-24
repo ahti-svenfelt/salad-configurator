@@ -16,6 +16,7 @@ export default function CenterBowl({ bowls, categories }: Props) {
   const clearSelection = useIngredientStore((s) => s.clearSelection);
 
   const activeIngredients = Object.values(slots).filter((i) => i !== null);
+  const clearSlot = useIngredientStore((s) => s.clearSlot);
 
   return (
     <div className="flex-1 flex flex-col items-center justify-center min-h-[400px] mt-4 lg:mt-0">
@@ -63,35 +64,59 @@ export default function CenterBowl({ bowls, categories }: Props) {
         <div className={`w-80 h-80 rounded-full border-[12px] border-gray-200 bg-gray-50 
           flex flex-wrap items-center justify-center shadow-inner relative p-4 ${selectedBowl?.shape === 'square' ? 'rounded-xl' : 'rounded-full'}`}
         >
-          {selectedBowl?.image_url && (
-            <img
-              src={selectedBowl.image_url}
-              alt="Base"
-              className="absolute inset-0 w-full h-full object-cover z-10 pointer-events-none"
-            />
-          )}
+          {(() => {
+            const baseImage =
+              selectedBowl?.image_url ||
+              bowls.find((b) => b.base_type_id === baseType)?.image_url;
+
+            if (!baseImage) return null;
+
+            return (
+              <img
+                src={baseImage}
+                alt="Base"
+                className="absolute inset-0 w-full h-full object-cover z-10 pointer-events-none"
+              />
+            );
+          })()}
 
           {selectedBowl?.slot_count && (
             <img
-              src={selectedBowl.slot_count === 4 ? "/dividers/divider-4.png" : "/dividers/divider-6.png"}
+              src={selectedBowl.slot_count === 4
+                ? "https://www.cc.puv.fi/~asa/fresh/images/jakaja_4_lohkoa.png"
+                : "https://www.cc.puv.fi/~asa/fresh/images/jakaja_6_lohkoa.png"}
               alt="Divider"
               className="absolute inset-0 w-full h-full object-contain z-20 pointer-events-none"
             />
           )}
 
-          {activeIngredients.map((ing) => (
-            <span
-              key={ing!.id}
-              className="px-3 py-1 bg-green-200 text-green-800 rounded-full text-sm m-1 shadow"
-            >
-              {ing!.name}
-            </span>
-          ))}
+          {Object.entries(slots).map(([slotKey, ing]) => {
+            if(!ing) return null;
+            return(
+              <div
+                key={slotKey}
+                className="absolute inset-0 z-30 pointer-events-none"
+              >
+                <img
+                  src={ing.wedge_image_url}
+                  alt={ing.name}
+                  className="absolute inset-0 w-full h-full object-contain"
+                />
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    clearSlot(slotKey);
+                  }}
+                  className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs shadow pointer-events-auto"
+                >
+                  X
+                </button>
+              </div>
+            );
+          })}
         </div>
         <div>
-          100 g / 1,99 €  
-          <br />
-          {selectedBowl ? selectedBowl.volume : 0} ml
+          100 g / 1,99 € {selectedBowl ? selectedBowl.volume : 0} ml
       </div>
     </div>
   );
