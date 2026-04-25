@@ -1,13 +1,5 @@
 import { create } from 'zustand';
-import type { Bowl } from '../types';
-
-export interface Ingredient {
-  id: number;
-  name: string;
-  categoryId: number;
-  weight_grams: number;
-  wedge_image_url: string;
-}
+import type { Bowl, Ingredient } from '../types';
 
 interface IngredientState {
   slots: Record<string, Ingredient | null>
