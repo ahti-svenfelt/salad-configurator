@@ -37,7 +37,7 @@ export default function BaseSelection({ ingredients }: BaseSelectionProps) {
                             <img
                                 src={base.image_url}
                                 alt={base.name}
-                                className="w-full h-20 object-cover rounded-md"
+                                className="w-full h-10 object-cover rounded-md"
                             />
                         )}
                     </button>
