@@ -63,7 +63,18 @@ export default function Configurator() {
                     categories={filteredCategories}
                 />
                 
-                <BaseSelection ingredients={baseIngredients}/>
+                {baseType === 2 ? (
+                    <div className="bg-zinc-800 rounded-[3rem] p-6 text-white w-full lg:w-1/4 flex flex-col items-center shadow-lg relative opacity-60 pointer-events-none">
+                        <BaseSelection ingredients={baseIngredients}/>
+
+                        <div>
+                            Saatavilla vain salaateille
+                        </div>
+                    </div>
+                ) : (
+                    <BaseSelection ingredients={baseIngredients}/>
+                )}
+                
             </div>
             <IngredientSection 
                 categories={filteredCategories}
@@ -72,6 +83,5 @@ export default function Configurator() {
 
             <SummaryBar />
         </div>
-        
     )
-} 
+}
