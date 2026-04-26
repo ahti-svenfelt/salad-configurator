@@ -5,15 +5,17 @@ import { usePriceStore } from "../store/usePriceStore";
 
 export default function SummaryBar() {
   const slots = useIngredientStore((s) => s.slots);
-  const removeIngredient = useIngredientStore((s) => s.removeIngredient);
+  const clearSlot = useIngredientStore((s) => s.clearSlot);
   const prices = usePriceStore((s) => s.prices);
 
-  const activeIngredients = Object.values(slots).filter((i) => i !== null);
+  const activeIngredients = Object.entries(slots)
+    .filter(([_, item]) => item !== null)
+    .map(([slotKey, item]) => ({ slotKey, item: item! }));
 
-  const totalWeight = calculateTotalWeight(activeIngredients);
+  const totalWeight = calculateTotalWeight(activeIngredients.map((a) => a.item));
 
-  const totalPrice = activeIngredients.reduce((sum, item) => {
-    const priceEntry = prices.find((p) => p.item_id === item!.id);
+  const totalPrice = activeIngredients.reduce((sum, a) => {
+    const priceEntry = prices.find((p) => p.item_id === a.item.id);
     return sum + (priceEntry ? priceEntry.price : 0);
   }, 0);
 
@@ -25,16 +27,16 @@ export default function SummaryBar() {
         </h2>
 
         <div className="flex flex-wrap gap-3">
-          {activeIngredients.map((item) => (
+          {activeIngredients.map(({ slotKey, item }) => (
             <div
-              key={item!.id}
+              key={slotKey}
               className="flex items-center gap-2 bg-white text-black px-3 py-1 rounded-full shadow"
             >
-              <span>{item!.name}</span>
+              <span>{item.name}</span>
 
               <button
                 className="text-red-600 font-bold"
-                onClick={() => removeIngredient(item!.id)}
+                onClick={() => clearSlot(slotKey)}
               >
                 x
               </button>
