@@ -6,6 +6,7 @@ export interface Ingredient {
   name: string;
   categoryId: number;
   weight_grams: number;
+  wedge_image_url: string;
 }
 
 interface IngredientState {
@@ -19,6 +20,7 @@ interface IngredientState {
 
   addIngredient: (item: Ingredient) => void
   removeIngredient: (id: number) => void
+  clearSlot: (slotKey: string) => void
 }
 
 export const useIngredientStore = create<IngredientState>((set) => ({
@@ -78,4 +80,9 @@ export const useIngredientStore = create<IngredientState>((set) => ({
       return state;
     });
   },
+
+  clearSlot: (slotKey: string) =>
+    set((state) => ({
+      slots: { ...state.slots, [slotKey]: null}
+    })),
 }));

@@ -37,7 +37,7 @@ export default function IngredientSection({ categories, ingredients }: Ingredien
           onClick={() => setActiveCategory("all")}
           className={`px-6 py-2 rounded-full font-bold ${
             activeCategory === "all"
-              ? "bg-[#A2D135] text-black"
+              ? "px-6 py-2 rounded-full font-bold"
               : "bg-zinc-600 text-white"
           }`}
         >
