@@ -22,14 +22,17 @@ export default function BowlSelection({ bowls }: BowlSelectionProps) {
             <div className="bg-white text-black font-bold rounded-full w-8 h-8 flex items-center justify-center mb-4 shrink-0">
                 1
             </div>
+            <div className="font-bold rounded-full flex items-center justify-center mb-4 shrink-0">
+                <p>Valitse rasia</p>
+            </div>
 
             {bowls.map((bowl) => (
                 <button
                     key={bowl.id}
                     className={`h-12 border-2 rounded-xl flex items-center px-4 ${
                         selectedBowl?.id === bowl.id
-                            ? "border-white"
-                            : "border-gray-600"
+                            ? "border-[#A2D135] text-[#A2D135]"
+                            : "border-gray-600 text-white"
                     }`}
                     onClick={() => setBowl(bowl)}
                 >

@@ -41,7 +41,7 @@ export default function IngredientSection({ categories, ingredients }: Ingredien
               : "bg-zinc-600 text-white"
           }`}
         >
-          All
+          Kaikki
         </button>
 
         {filteredCategories.map(cat => (
@@ -64,7 +64,12 @@ export default function IngredientSection({ categories, ingredients }: Ingredien
           <IngredientCard key={ingredient.id} ingredient={ingredient}/>
         ))}
       </div>
-      
+
+      <div className="mt-6 text-sm text-gray-300 flex gap-6">
+        <span><strong className="text-[#A2D135]">G</strong> = Gluten-free</span>
+        <span><strong className="text-[#A2D135]">L</strong> = Lactose-free</span>
+        <span><strong className="text-[#A2D135]">V</strong> = Vegan</span>
+      </div>
     </div>
   )
 }
